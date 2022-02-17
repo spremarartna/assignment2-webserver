@@ -4,12 +4,12 @@ from socket import *
 import sys
 from urllib import request
 
-host = '127.0.0.1' 
+host = '127.0.0.1'
 port = 13331
 def webServer(port=13331):
   serverSocket = socket(AF_INET, SOCK_STREAM)
   #Prepare a server socket
-  serverSocket.bind((host, port))
+  serverSocket.bind(("", port))
   #Fill in start
   serverSocket.listen(1)
 
@@ -22,7 +22,7 @@ def webServer(port=13331):
     try:
 
       try:
-        message =  connectionSocket.recv(1024).decode() #Fill in start    #Fill in end
+        message =  connectionSocket.recv(1024) #Fill in start    #Fill in end
         print(message)
         filename = message.split()[1]
         f = open(filename[1:])
@@ -31,7 +31,7 @@ def webServer(port=13331):
         #Send one HTTP header line into socket.
         #Fill in start
         response = 'HTTP/1.9 200 OK\n\nHello World'
-        connectionSocket.sendall(response.encode())
+        connectionSocket.sendall(response)
         connectionSocket.close()
         #Fill in end
 
