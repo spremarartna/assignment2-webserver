@@ -2,14 +2,17 @@
 from socket import *
 # In order to terminate the program
 import sys
+from urllib import request
 
-
+host = 127.0.0.1 
+port = 13331
 def webServer(port=13331):
   serverSocket = socket(AF_INET, SOCK_STREAM)
   #Prepare a server socket
   serverSocket.bind(("", port))
   #Fill in start
-   serverSocket.listen(1)
+  serverSocket.listen(1)
+
   #Fill in end
 
   while True:
@@ -19,14 +22,17 @@ def webServer(port=13331):
     try:
 
       try:
-        message = connectionSocket.recv(1024) #Fill in start    #Fill in end
+        message =  connectionSocket.recv(1024).decode() #Fill in start    #Fill in end
+        print(message)
         filename = message.split()[1]
         f = open(filename[1:])
         outputdata = f.read() #Fill in start     #Fill in end
         
         #Send one HTTP header line into socket.
         #Fill in start
-        connectionSocket.send('HTTP/1.1 200 OK\r\n\r\n.encode()')
+        response = 'HTTP/1.9 200 OK\n\nHello World'
+        connectionSocket.sendall(response.encode())
+        connectionSocket.close()
         #Fill in end
 
         #Send the content of the requested file to the client
@@ -38,8 +44,23 @@ def webServer(port=13331):
       except IOError:
         # Send response message for file not found (404)
         #Fill in start
-        connectionSocket.send("HTTP/1.1 404 Not Found\r\n\r\n")
-        connectionSokcet.send(" <html><head></head><body><h1>404 Not Found</h1></body></html>\r\n ")
+        while True: 
+            headers = request.split('\n')
+            filename = headers[0].split()[1]
+
+            if filename == '/':
+                filename = '/index.html'
+            try: 
+                f = open('htdocs'+filename)
+                outputdata = f.read()
+                f.close()
+
+                message = 'HTT/1.0 200 OK\n\n' + outputdata
+            except FileNotFoundError:
+                message = 'HTTP/1.0 404 Not Found\n\nFile Not Found'
+            connectionSocket.sendall(message.encode())
+            connectionSocket.close()
+
         #Fill in end
 
 
