@@ -4,12 +4,12 @@ from socket import *
 import sys
 from urllib import request
 
-host = 127.0.0.1 
+host = '127.0.0.1' 
 port = 13331
 def webServer(port=13331):
   serverSocket = socket(AF_INET, SOCK_STREAM)
   #Prepare a server socket
-  serverSocket.bind(("", port))
+  serverSocket.bind((host, port))
   #Fill in start
   serverSocket.listen(1)
 
