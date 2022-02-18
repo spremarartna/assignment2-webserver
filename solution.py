@@ -1,11 +1,9 @@
-# import socket module
-import io
+#  import socket module
+from cgitb import html
 from socket import *
 # In order to terminate the program
 import sys
 
-host = '127.0.0.1'
-port = 13331
 
 def webServer(port=13331):
   serverSocket = socket(AF_INET, SOCK_STREAM)
@@ -29,9 +27,8 @@ def webServer(port=13331):
         
         #Send one HTTP header line into socket.
         #Fill in start
-        connectionSocket.send('HTTP/1.1 200 OK\n'.encode('utf-8'))
-        connectionSocket.send('Content-Type: text/html: charset=utf-8\n\n'.encode('utf-8'))
-        connectionSocket.send(outputdata.encode('utf-8'))
+        connectionSocket.sendall('HTTP/1.1 200 OK\r\n\r\n'.encode())
+        connectionSocket.send(outputdata)
         #Fill in end
 
         #Send the content of the requested file to the client
@@ -43,9 +40,8 @@ def webServer(port=13331):
       except IOError:
         # Send response message for file not found (404)
         #Fill in start
-        f = io.open('404.html', "r", encoding="utf-8")
-        outputdata = f.read()
-        connectionSocket.send(outputdata.encode('utf-8'))
+        print ("404 File Not Found")
+        connectionSocket.sendall(b'HTTP/1.1 404 Not Found\r\nConecnt-Type: text/html\r\n\r\n<doctypehtml<html><body><h1>404 Not Found&#9785<h1></body></html>')
         #Fill in end
 
 
@@ -58,7 +54,7 @@ def webServer(port=13331):
       pass
 
     serverSocket.close()
-sys.exit()  # Terminate the program after sending the corresponding data
+  sys.exit()  # Terminate the program after sending the corresponding data
 
 if __name__ == "__main__":
   webServer(13331)
