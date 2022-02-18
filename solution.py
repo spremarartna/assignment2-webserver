@@ -33,7 +33,7 @@ def webServer(port=13331):
             print(outputdata)
             #Send one HTTP header line into socket.
             #Fill in start
-            message = 'HTTP/1.1 200 OK\r\n\r\nHello World'
+            message = 'HTTP/1.1 200 OK\r\nHello World'
             connectionSocket.sendall(message.encode())
             
             #Fill in end
@@ -47,7 +47,7 @@ def webServer(port=13331):
         except IOError:
         # Send response message for file not found (404)
         #Fill in start
-            message = 'HTTP/1.1 404 File Not Found\r\n\r\nFile Not Found'
+            message = 'HTTP/1.1 404 File Not Found\r\nFile Not Found'
             connectionSocket.sendall(message.encode())
         #Fill in end
 
