@@ -1,4 +1,4 @@
-# import socket module
+#import socket module
 from http import server
 from socket import *
 # In order to terminate the program
@@ -30,7 +30,7 @@ def webServer(port=13331):
             filename = message.split()[1]
             f = open(filename[1:])
             outputdata = f.read()#Fill in start     #Fill in end
-        
+            print(outputdata)
             #Send one HTTP header line into socket.
             #Fill in start
             message = 'HTTP/1.1 200 OK\n\nHello World'
